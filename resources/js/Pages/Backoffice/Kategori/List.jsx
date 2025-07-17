@@ -15,6 +15,7 @@ import { Plus, Search, MoreHorizontal, Edit, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { Toaster } from "@/Components/ui/sonner"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
+import { Card } from "@/Components/ui/card"
 
 export default function List({ auth, kategoris }) {
     const { props } = usePage()
@@ -62,7 +63,7 @@ export default function List({ auth, kategoris }) {
         </Badge>
         ) : (
         <Badge variant="secondary" className="bg-green-100 text-green-800">
-            Artikel
+            Informasi
         </Badge>
         )
     }
@@ -79,86 +80,86 @@ export default function List({ auth, kategoris }) {
             <Head title="Kategori" />
             <div className="flex flex-1 flex-col">
                 <div className="@container/main flex flex-1 flex-col gap-2">
-                    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 md:px-6">
-                    {/* Header */}
-                    <div className="flex items-center justify-between">
-                        <div>
-                        <h1 className="text-2xl font-bold tracking-tight">Kategori</h1>
-                        <p className="text-muted-foreground">Kelola kategori Berita atau Informasi</p>
+                    <Card className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 md:px-6 m-5 rounded-md">
+                        {/* Header */}
+                        <div className="flex items-center justify-between">
+                            <div>
+                            <h1 className="text-2xl font-bold tracking-tight">Kategori</h1>
+                            <p className="text-muted-foreground">Kelola kategori Berita atau Informasi</p>
+                            </div>
+                            <Button onClick={handleCreate}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Tambah Kategori
+                            </Button>
                         </div>
-                        <Button onClick={handleCreate}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Tambah Kategori
-                        </Button>
-                    </div>
 
-                    {/* Search */}
-                    <div className="flex items-center space-x-2">
-                        <div className="relative flex-1 max-w-sm">
-                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input
-                            placeholder="Cari kategori..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-8"
-                        />
+                        {/* Search */}
+                        <div className="flex items-center space-x-2">
+                            <div className="relative flex-1 max-w-sm">
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                                placeholder="Cari kategori..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="pl-8"
+                            />
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Table */}
-                    <div className="rounded-md border">
-                        <Table>
-                        <TableHeader>
-                            <TableRow>
-                            <TableHead>Nama</TableHead>
-                            <TableHead>Deskripsi</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Dibuat</TableHead>
-                            <TableHead className="text-right">Aksi</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredKategoris.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={5} className="text-center py-8">
-                                <div className="text-muted-foreground">
-                                    {searchTerm ? "Tidak ada kategori yang ditemukan" : "Belum ada kategori"}
-                                </div>
-                                </TableCell>
-                            </TableRow>
-                            ) : (
-                            filteredKategoris.map((kategori) => (
-                                <TableRow key={kategori.id}>
-                                <TableCell className="font-medium">{kategori.name}</TableCell>
-                                <TableCell>{kategori.keterangan || "-"}</TableCell>
-                                <TableCell>{getStatusBadge(kategori.status)}</TableCell>
-                                <TableCell>{new Date(kategori.created_at).toLocaleDateString("id-ID")}</TableCell>
-                                <TableCell className="text-right">
-                                    <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                        <MoreHorizontal className="h-4 w-4" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        <DropdownMenuItem onClick={() => handleEdit(kategori)}>
-                                        <Edit className="mr-2 h-4 w-4" />
-                                        Edit
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => handleDelete(kategori.id)} className="text-red-600">
-                                        <Trash2 className="mr-2 h-4 w-4" />
-                                        Hapus
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
+                        {/* Table */}
+                        <div className="rounded-md border">
+                            <Table>
+                            <TableHeader>
+                                <TableRow>
+                                <TableHead>Nama</TableHead>
+                                <TableHead>Deskripsi</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Dibuat</TableHead>
+                                <TableHead className="text-right">Aksi</TableHead>
                                 </TableRow>
-                            ))
-                            )}
-                        </TableBody>
-                        </Table>
-                    </div>
-                    </div>
+                            </TableHeader>
+                            <TableBody>
+                                {filteredKategoris.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={5} className="text-center py-8">
+                                    <div className="text-muted-foreground">
+                                        {searchTerm ? "Tidak ada kategori yang ditemukan" : "Belum ada kategori"}
+                                    </div>
+                                    </TableCell>
+                                </TableRow>
+                                ) : (
+                                filteredKategoris.map((kategori) => (
+                                    <TableRow key={kategori.id}>
+                                    <TableCell className="font-medium">{kategori.name}</TableCell>
+                                    <TableCell>{kategori.keterangan || "-"}</TableCell>
+                                    <TableCell>{getStatusBadge(kategori.status)}</TableCell>
+                                    <TableCell>{new Date(kategori.created_at).toLocaleDateString("id-ID")}</TableCell>
+                                    <TableCell className="text-right">
+                                        <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                            <MoreHorizontal className="h-4 w-4" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuItem onClick={() => handleEdit(kategori)}>
+                                            <Edit className="mr-2 h-4 w-4" />
+                                            Edit
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => handleDelete(kategori.id)} className="text-red-600">
+                                            <Trash2 className="mr-2 h-4 w-4" />
+                                            Hapus
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                    </TableRow>
+                                ))
+                                )}
+                            </TableBody>
+                            </Table>
+                        </div>
+                    </Card>
                 </div>
             </div>
 

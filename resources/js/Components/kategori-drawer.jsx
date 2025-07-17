@@ -108,7 +108,7 @@ export function KategoriDrawer({ open, onOpenChange, kategori }) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="berita">Berita</SelectItem>
-                <SelectItem value="artikel">Artikel</SelectItem>
+                <SelectItem value="informasi">Informasi</SelectItem>
               </SelectContent>
             </Select>
             {errors.status && <p className="text-sm text-red-500">{errors.status}</p>}

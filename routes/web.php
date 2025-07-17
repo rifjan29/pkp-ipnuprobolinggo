@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BackofficeController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\ProfileController as FrontendProfileController;
@@ -37,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
             // kategori
             Route::resource('kategori', KategoriController::class);
         });
+        // berita
+        Route::resource('berita', BeritaController::class);
     });
 });
 Route::middleware('auth')->group(function () {

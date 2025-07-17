@@ -42,14 +42,14 @@ class KategoriController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:kategori,name',
             'keterangan' => 'nullable|string|max:1000',
-            'status' => 'required|in:berita,artikel',
+            'status' => 'required|in:berita,informasi',
         ], [
             'name.required' => 'Nama kategori wajib diisi.',
             'name.unique' => 'Nama kategori sudah digunakan.',
             'name.max' => 'Nama kategori maksimal 255 karakter.',
             'keterangan.max' => 'Keterangan maksimal 1000 karakter.',
             'status.required' => 'Status wajib dipilih.',
-            'status.in' => 'Status harus berita atau artikel.',
+            'status.in' => 'Status harus berita atau informasi.',
         ]);
 
         try {
@@ -99,7 +99,7 @@ class KategoriController extends Controller
                 Rule::unique('kategori', 'name')->ignore($kategori->id)
             ],
             'keterangan' => 'nullable|string|max:1000',
-            'status' => 'required|in:berita,artikel',
+            'status' => 'required|in:berita,informasi',
         ], [
             'name.required' => 'Nama kategori wajib diisi.',
             'name.unique' => 'Nama kategori sudah digunakan.',

@@ -87,7 +87,7 @@ const data = {
       items: [
         {
           title: "Berita",
-          url: "#",
+          url: route('berita.index'),
         },
         {
           title: "Artikel",
