@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Head, router, usePage } from "@inertiajs/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -59,13 +59,18 @@ export default function List({ auth, berita, categories, users, tags, filters })
         setEditingBerita(null)
     }
 
-    // Show flash messages
-    if (flash.success) {
-        toast.success(flash.success)
+    const [localFlash, setLocalFlash] = useState(flash)
+
+    useEffect(() => {
+    if (localFlash.success) {
+        toast.success(localFlash.success)
+        setLocalFlash((prev) => ({ ...prev, success: null }))
     }
-    if (flash.error) {
-        toast.error(flash.error)
+    if (localFlash.error) {
+        toast.error(localFlash.error)
+        setLocalFlash((prev) => ({ ...prev, error: null }))
     }
+    }, [localFlash])
 
   return (
     <AuthenticatedLayout
@@ -78,12 +83,12 @@ export default function List({ auth, berita, categories, users, tags, filters })
                     <Card className="rounded-md">
                         <CardHeader>
                             <CardTitle className="flex items-center justify-between">
-                                <h1 className="text-2xl font-bold tracking-tight">News Articles Management</h1>
+                                <h1 className="text-2xl font-bold tracking-tight">News Management</h1>
                             <Drawer open={isCreateOpen} onOpenChange={setIsCreateOpen}>
                                 <DrawerTrigger asChild>
                                 <Button>
                                     <Plus className="w-4 h-4 mr-2" />
-                                    Add Article
+                                    Tambah Berita
                                 </Button>
                                 </DrawerTrigger>
                                 <DrawerContent className="max-h-[90vh]">
@@ -102,13 +107,13 @@ export default function List({ auth, berita, categories, users, tags, filters })
                                 </DrawerContent>
                             </Drawer>
                             </CardTitle>
-                            <CardDescription>Manage your news articles, categories, and tags</CardDescription>
+                            <CardDescription>Manage your news, categories, and tags</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={handleSearch} className="flex items-center space-x-2 mb-4">
                             <Search className="w-4 h-4 text-muted-foreground" />
                             <Input
-                                placeholder="Search articles..."
+                                placeholder="Search News..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="max-w-sm"
@@ -195,7 +200,7 @@ export default function List({ auth, berita, categories, users, tags, filters })
                             </div>
 
                             {berita.data.length === 0 && (
-                            <div className="text-center py-8 text-muted-foreground">No articles found.</div>
+                            <div className="text-center py-8 text-muted-foreground">No News found.</div>
                             )}
 
                             {/* Pagination */}

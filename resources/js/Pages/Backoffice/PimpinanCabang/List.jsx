@@ -11,59 +11,60 @@ import { Badge } from "@/Components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu"
 import { KategoriDrawer } from "@/Components/kategori-drawer"
-import { Plus, Search, MoreHorizontal, Edit, Trash2 } from "lucide-react"
+import { Plus, Search, MoreHorizontal, Edit, Trash2, PersonStanding } from "lucide-react"
 import { toast } from "sonner"
 import { Toaster } from "@/Components/ui/sonner"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import { Card } from "@/Components/ui/card"
+import { PimpinanCabangDrawer } from "@/Components/pimpinan-cabang-drawer"
 
-export default function List({ auth, kategoris }) {
+export default function List({ auth, pimpinanCabang }) {
     const { props } = usePage()
     const user = props.user
     const { flash } = usePage().props
     const [searchTerm, setSearchTerm] = useState("")
     const [drawerOpen, setDrawerOpen] = useState(false)
-    const [editingKategori, setEditingKategori] = useState(null)
+    const [editingPimpinanCabang, setEditingPimpinanCabang] = useState(null)
 
-    // Filter kategoris based on search term
-    const filteredKategoris =
-        kategoris?.filter(
-        (kategori) =>
-            kategori.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            kategori.keterangan?.toLowerCase().includes(searchTerm.toLowerCase()),
+    // Filter pimpinanCabang based on search term
+    const filteredPimpinanJabatan =
+        pimpinanCabang?.filter(
+        (pimpinanCabang) =>
+            pimpinanCabang.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            pimpinanCabang.keterangan?.toLowerCase().includes(searchTerm.toLowerCase()),
         ) || []
 
     const handleCreate = () => {
-        setEditingKategori(null)
+        setEditingPimpinanCabang(null)
         setDrawerOpen(true)
     }
 
-    const handleEdit = (kategori) => {
-        setEditingKategori(kategori)
+    const handleEdit = (pimpinanCabang) => {
+        setEditingPimpinanCabang(pimpinanCabang)
         setDrawerOpen(true)
     }
 
     const handleDelete = (id) => {
-        if (confirm("Apakah Anda yakin ingin menghapus kategori ini?")) {
-        router.delete(route("kategori.destroy", id), {
+        if (confirm("Apakah Anda yakin ingin menghapus Pimpinan Cabang ini?")) {
+        router.delete(route("pimpinan-cabang.destroy", id), {
             onSuccess: () => {
-            toast.success("Kategori berhasil dihapus")
+            toast.success("Pimpinan Cabang berhasil dihapus")
             },
             onError: () => {
-            toast.error("Gagal menghapus kategori")
+            toast.error("Gagal menghapus Pimpinan Cabang")
             },
         })
         }
     }
 
     const getStatusBadge = (status) => {
-        return status === "berita" ? (
-        <Badge variant="default" className="bg-blue-100 text-blue-800">
-            Berita
+        return status === "aktif" ? (
+        <Badge variant="default" className="bg-green-100 text-green-800">
+            Aktif
         </Badge>
         ) : (
-        <Badge variant="secondary" className="bg-green-100 text-green-800">
-            Informasi
+        <Badge variant="secondary" className="bg-red-100 text-red-800">
+            Non Aktif
         </Badge>
         )
     }
@@ -85,19 +86,19 @@ export default function List({ auth, kategoris }) {
         <AuthenticatedLayout
 
         >
-            <Head title="Kategori" />
+            <Head title="Pimpinan Cabang " />
             <div className="flex flex-1 flex-col">
                 <div className="@container/main flex flex-1 flex-col gap-2">
                     <Card className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 md:px-6 m-5 rounded-md">
                         {/* Header */}
                         <div className="flex items-center justify-between">
                             <div>
-                            <h1 className="text-2xl font-bold tracking-tight">Kategori</h1>
-                            <p className="text-muted-foreground">Kelola kategori Berita atau Informasi</p>
+                            <h1 className="text-2xl font-bold tracking-tight">Pimpinan Cabang</h1>
+                            <p className="text-muted-foreground">Kelola Pimpinan Cabang Berita atau Informasi</p>
                             </div>
                             <Button onClick={handleCreate}>
                             <Plus className="mr-2 h-4 w-4" />
-                            Tambah Kategori
+                            Tambah Pimpinan Cabang
                             </Button>
                         </div>
 
@@ -106,7 +107,7 @@ export default function List({ auth, kategoris }) {
                             <div className="relative flex-1 max-w-sm">
                             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Cari kategori..."
+                                placeholder="Cari Pimpinan Cabang..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="pl-8"
@@ -120,28 +121,34 @@ export default function List({ auth, kategoris }) {
                             <TableHeader>
                                 <TableRow>
                                 <TableHead>Nama</TableHead>
-                                <TableHead>Deskripsi</TableHead>
+                                <TableHead>Alamat</TableHead>
+                                <TableHead>Keterangan</TableHead>
+                                <TableHead>No. HP</TableHead>
                                 <TableHead>Status</TableHead>
                                 <TableHead>Dibuat</TableHead>
+                                <TableHead>Jumlah Anggota</TableHead>
                                 <TableHead className="text-right">Aksi</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {filteredKategoris.length === 0 ? (
+                                {filteredPimpinanJabatan.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={5} className="text-center py-8">
                                     <div className="text-muted-foreground">
-                                        {searchTerm ? "Tidak ada kategori yang ditemukan" : "Belum ada kategori"}
+                                        {searchTerm ? "Tidak ada Pimpinan Jabatan yang ditemukan" : "Belum ada Pimpinan Jabatan"}
                                     </div>
                                     </TableCell>
                                 </TableRow>
                                 ) : (
-                                filteredKategoris.map((kategori) => (
-                                    <TableRow key={kategori.id}>
-                                    <TableCell className="font-medium">{kategori.name}</TableCell>
-                                    <TableCell>{kategori.keterangan || "-"}</TableCell>
-                                    <TableCell>{getStatusBadge(kategori.status)}</TableCell>
-                                    <TableCell>{new Date(kategori.created_at).toLocaleDateString("id-ID")}</TableCell>
+                                filteredPimpinanJabatan.map((pimpinanCabang) => (
+                                    <TableRow key={pimpinanCabang.id}>
+                                    <TableCell className="font-medium">{pimpinanCabang.name}</TableCell>
+                                    <TableCell>{pimpinanCabang.alamat || "-"}</TableCell>
+                                    <TableCell>{pimpinanCabang.keterangan || "-"}</TableCell>
+                                    <TableCell>{pimpinanCabang.no_hp || "-"}</TableCell>
+                                    <TableCell>{getStatusBadge(pimpinanCabang.status)}</TableCell>
+                                    <TableCell>{new Date(pimpinanCabang.created_at).toLocaleDateString("id-ID")}</TableCell>
+                                    <TableCell> <div className="flex flex-wrap gap-1"><PersonStanding className="w-5 h-5"/> <b>{pimpinanCabang.jumlah_anggota || "-"}</b></div></TableCell>
                                     <TableCell className="text-right">
                                         <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
@@ -150,11 +157,11 @@ export default function List({ auth, kategoris }) {
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem onClick={() => handleEdit(kategori)}>
+                                            <DropdownMenuItem onClick={() => handleEdit(pimpinanCabang)}>
                                             <Edit className="mr-2 h-4 w-4" />
                                             Edit
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => handleDelete(kategori.id)} className="text-red-600">
+                                            <DropdownMenuItem onClick={() => handleDelete(pimpinanCabang.id)} className="text-red-600">
                                             <Trash2 className="mr-2 h-4 w-4" />
                                             Hapus
                                             </DropdownMenuItem>
@@ -172,7 +179,7 @@ export default function List({ auth, kategoris }) {
             </div>
 
             {/* Drawer for Create/Edit */}
-            <KategoriDrawer open={drawerOpen} onOpenChange={setDrawerOpen} kategori={editingKategori} />
+            <PimpinanCabangDrawer open={drawerOpen} onOpenChange={setDrawerOpen} pimpinanCabang={editingPimpinanCabang} />
 
         </AuthenticatedLayout>
     )

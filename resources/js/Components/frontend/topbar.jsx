@@ -345,7 +345,7 @@ export default function Topbar({ auth }) {
               {isProfileOpen && (
                 <div className="pl-6 space-y-1">
                   <Link
-                    href={route('sejarah.index')}
+                    href={route('profile.sejarah.index')}
                     className="block px-3 py-2 rounded-md text-base font-medium hover:bg-emerald-50 hover:text-emerald-600"
                     onClick={() => setIsOpen(false)}
                   >

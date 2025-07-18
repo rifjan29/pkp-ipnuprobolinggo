@@ -38,7 +38,7 @@ class BeritaController extends Controller
 
         return Inertia::render('Backoffice/Berita/List', [
             'berita' => $berita,
-            'categories' => KategoriModel::all(),
+            'categories' => KategoriModel::berita()->get(),
             'users' => User::all(),
             'tags' => Tag::all(),
             'filters' => $request->only(['search']),
@@ -170,7 +170,10 @@ class BeritaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id){
+
+    }
+    public function updateBerita(Request $request, string $id)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',

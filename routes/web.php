@@ -9,7 +9,9 @@ use App\Http\Controllers\Frontend\ProgramKerjaController;
 use App\Http\Controllers\Frontend\SejarahController;
 use App\Http\Controllers\Frontend\StafController;
 use App\Http\Controllers\Frontend\WelcomeController;
+use App\Http\Controllers\JabatanKepengurusanController;
 use App\Http\Controllers\MasterData\KategoriController;
+use App\Http\Controllers\PimpinanCabangController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +23,7 @@ Route::get('blog-section',[BlogController::class,'index'])->name('blog-section.i
 Route::get('news-section',[NewsController::class,'index'])->name('news-section.index');
 Route::get('staf',[StafController::class,'index'])->name('staf.index');
 Route::prefix('profile')->group(function () {
-    Route::get('sejarah',[FrontendProfileController::class,'sejarah'])->name('sejarah.index');
+    Route::get('sejarah',[FrontendProfileController::class,'sejarah'])->name('profile.sejarah.index');
     Route::get('visi-misi',[FrontendProfileController::class,'visiMisi'])->name('visi-misi.index');
     Route::get('makna-logo',[FrontendProfileController::class,'maknaLogo'])->name('makna-logo.index');
 
@@ -37,8 +39,13 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('master-data')->group(function () {
             // kategori
             Route::resource('kategori', KategoriController::class);
+            // jabatan kepengurusan
+            Route::resource('jabatan',JabatanKepengurusanController::class);
+            // pimpinan cabang
+            Route::resource('pimpinan-cabang', PimpinanCabangController::class);
         });
         // berita
+        Route::post('update-berita/{id}',[BeritaController::class,'updateBerita'])->name('berita-update.post');
         Route::resource('berita', BeritaController::class);
     });
 });

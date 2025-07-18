@@ -14,6 +14,19 @@ class KategoriModel extends Model
         'keterangan',
     ];
 
+    public function scopeBerita($query)
+    {
+        return $query->where('status', 'berita');
+    }
+
+    /**
+     * Scope for artikel kategoris
+     */
+    public function scopeArtikel($query)
+    {
+        return $query->where('status', 'artikel');
+    }
+
     protected static function boot()
     {
         parent::boot();

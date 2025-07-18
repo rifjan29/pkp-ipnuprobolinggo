@@ -63,20 +63,12 @@ const data = {
           url: route('kategori.index'),
         },
         {
-          title: "Ranting",
-          url: "#",
-        },
-        {
-          title: "PAC&PKPT",
-          url: "#",
-        },
-        {
           title: "Jabatan Kepengurusan",
-          url: "#",
+          url: route('jabatan.index'),
         },
         {
-          title: "Pimpinan Komisariat",
-          url: "#",
+          title: "Pimpinan Cabang",
+          url: route('pimpinan-cabang.index'),
         },
       ],
     },
@@ -168,7 +160,7 @@ export function AppSidebar({
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <a href={route('dashboard')}>
                 <span className="text-base font-semibold">Backoffice.</span>
               </a>
             </SidebarMenuButton>
